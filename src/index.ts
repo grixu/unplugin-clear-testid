@@ -8,8 +8,8 @@ export default createUnplugin<Options>(options => ({
     return /.(js|jsx|ts|tsx|vue)/.test(id)
   },
   transform(code) {
-    code = htmlTransformer(code, options)
     code = vueTransformer(code, options)
+    code = htmlTransformer(code, options)
     return code
   },
 }))
