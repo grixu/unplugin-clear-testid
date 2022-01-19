@@ -1,7 +1,7 @@
 {
-  "name": "unplugin-starter",
-  "version": "0.1.0",
-  "description": "Register global imports on demand for Vite and Webpack",
+  "name": "unplugin-clear-testid",
+  "version": "0.0.2",
+  "description": "Simple unplugin which removes data-testid & data-cy from your code.",
   "keywords": [
     "unplugin",
     "vite",
