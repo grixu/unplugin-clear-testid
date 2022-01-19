@@ -1,6 +1,6 @@
 {
   "name": "unplugin-clear-testid",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Simple unplugin which removes data-testid & data-cy from your code.",
   "keywords": [
     "unplugin",
