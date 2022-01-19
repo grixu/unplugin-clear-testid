@@ -16,10 +16,10 @@ function vueTransformer(code: string, options: Options | undefined): string {
 
   const attrs = options?.attrs || ['data-testid', 'data-cy']
   const regexp = [
-    new RegExp(`:(${attrs.join('|')})=".*[^"]`, 'gm'),
-    new RegExp(`:(${attrs.join('|')})='.*[^']`, 'gm'),
-    new RegExp(`"(${attrs.join('|')})":\\s+".*[^"]`, 'gm'),
-    new RegExp(`'(${attrs.join('|')})':\\s+'.*[^']`, 'gm'),
+    new RegExp(`:(${attrs.join('|')})="[^"]*`, 'gm'),
+    new RegExp(`:(${attrs.join('|')})='[^']*`, 'gm'),
+    new RegExp(`"(${attrs.join('|')})":\\s+".*[^"]",?`, 'gm'),
+    new RegExp(`'(${attrs.join('|')})':\\s+'.*[^']',?`, 'gm'),
   ]
 
   for (const regex of regexp)
