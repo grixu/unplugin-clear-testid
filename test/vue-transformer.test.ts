@@ -1,6 +1,6 @@
 import { vueTransformer } from '../src/core'
 
-describe('HtmlTransformer', () => {
+describe('VueTransformer', () => {
   const exampleCode = `function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return _openBlock(), _createElementBlock("div", null, [
     _createElementVNode("div", _hoisted_1, [
@@ -34,7 +34,29 @@ describe('HtmlTransformer', () => {
   ]);
 }`
 
-  it('it replace given attrs', () => {
+  const exampleTemplate = `<div class="decks-card__content">
+      <deck
+          v-for="({ compartments, doors, holds, range, deckHoldsCodes, data-test-id, data-testid, data-cy }, index) in decks"
+          :key="index"
+          :active-uld-item="activeUldItem"
+          :uld-list="uldList"
+          :holds="holds"
+          :doors="doors"
+          :invalid-hold-positions="invalidHoldPositions"
+          :compartments="compartments"
+          :range="range"
+          :deck-holds-codes="deckHoldsCodes"
+          :data-cy="deck"
+          :data-testid="deck"
+          :data-test-id="deck"
+          class="decks-card__deck"
+          :expand-mode="expandMode"
+          @update:active-uld-item="emitActiveUldItem"
+          @update:uld-list="emitUldList"
+      />
+  </div>`
+
+  it('it replace given attrs (compiled sfc)', () => {
     const result = vueTransformer(exampleCode, { attrs: ['data-testid'] })
 
     expect(result).toBeTruthy()
@@ -44,13 +66,31 @@ describe('HtmlTransformer', () => {
     expect(result).toContain('class: "ml-2 block text-sm text-gray-900 data-testid data-test-id data-cy"')
   })
 
-  it('passing code with any modifications when in testing mode', () => {
+  it ('it replace given attrs (template)', () => {
+    const templateResult = vueTransformer(exampleTemplate, { attrs: ['data-testid'] })
+
+    expect(templateResult).toBeTruthy()
+    expect(templateResult).toContain(':data-test-id="')
+    expect(templateResult).toContain(':data-cy="')
+    expect(templateResult).not.toContain(':data-testid="')
+    expect(templateResult).toContain('data-testid')
+    expect(templateResult).toContain('data-test-id')
+    expect(templateResult).toContain('data-cy')
+  })
+
+  it('passing code with any modifications when in testing mode (compiled sfc)', () => {
     const result = vueTransformer(exampleCode, { testing: true })
 
     expect(result).toMatch(exampleCode)
   })
 
-  it('working without given options', () => {
+  it('passing code with any modifications when in testing mode (template)', () => {
+    const result = vueTransformer(exampleTemplate, { testing: true })
+
+    expect(result).toMatch(exampleTemplate)
+  })
+
+  it('working without given options (compiled sfc)', () => {
     const result = vueTransformer(exampleCode, undefined)
 
     expect(result).toBeTruthy()
@@ -58,5 +98,17 @@ describe('HtmlTransformer', () => {
     expect(result).not.toContain('data-cy":')
     expect(result).not.toContain('data-testid":')
     expect(result).toContain('class: "ml-2 block text-sm text-gray-900 data-testid data-test-id data-cy"')
+  })
+
+  it('working without given options (template)', () => {
+    const result = vueTransformer(exampleTemplate, undefined)
+
+    expect(result).toBeTruthy()
+    expect(result).toContain(':data-test-id="')
+    expect(result).not.toContain(':data-cy="')
+    expect(result).not.toContain('"data-testid="')
+    expect(result).toContain('data-testid')
+    expect(result).toContain('data-test-id')
+    expect(result).toContain('data-cy')
   })
 })
