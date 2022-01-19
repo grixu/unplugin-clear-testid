@@ -1,6 +1,6 @@
 import { createUnplugin } from 'unplugin'
 import { Options } from './types'
-import { htmlTransformer, vueTransformer} from './core'
+import { htmlTransformer, vueTransformer } from './core'
 
 export default createUnplugin<Options>(options => ({
   name: 'unplugin-clear-testid',
