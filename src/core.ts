@@ -18,6 +18,8 @@ function vueTransformer(code: string, options: Options | undefined): string {
   const regexp = [
     new RegExp(`"(${attrs.join('|')})":\\s+".*[^"]`, 'gm'),
     new RegExp(`'(${attrs.join('|')})':\\s+'.*[^']`, 'gm'),
+    new RegExp(`:(${attrs.join('|')})=".*[^"]`, 'gm'),
+    new RegExp(`:(${attrs.join('|')})='.*[^']`, 'gm'),
   ]
 
   for (const regex of regexp)
