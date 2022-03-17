@@ -56,6 +56,8 @@ describe('VueTransformer', () => {
       />
   </div>`
 
+  const exampleRenderFn = 'return h("div", { "data-testid": "exercise-content" }, [header, h("div", elements)])'
+
   it('it replace given attrs (compiled sfc)', () => {
     const result = vueTransformer(exampleCode, { attrs: ['data-testid'] })
 
@@ -110,5 +112,12 @@ describe('VueTransformer', () => {
     expect(result).toContain('data-testid')
     expect(result).toContain('data-test-id')
     expect(result).toContain('data-cy')
+  })
+
+  it('replace whore props when data-testid is only prop in h()', () => {
+    const result = vueTransformer(exampleRenderFn, undefined)
+
+    expect(result).toBeTruthy()
+    expect(result).not.toContain('data-testid: "')
   })
 })
